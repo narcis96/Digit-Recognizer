@@ -13,30 +13,29 @@ if (argc > 2):
 path = sys.argv[1];
 print 'scan files from ' + path + ":"
 files = os.listdir(path)
-count = 0
+countFiles = 0
 dict = dict()
 
 for file in files:
 	if file.endswith(".csv"):
 		print path + '\\' + file
 		with open(path + '\\' + file) as csvfile:
-			count = count + 1
-			next(csvfile)
+			countFiles = countFiles + 1
 			spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
 			for row in spamreader:
-				if int(row[0]) in dict:
-					if dict[int(row[0])][0] == row[1]:
-						dict[int(row[0])].append(row[1])
+				index = int(row[0])
+				if index in dict:
+					if dict[index][0] == row[1]:
+						dict[index].append(row[1])
 				else:
-					dict[int(row[0])] = [row[1]]		
+					dict[index] = [row[1]]		
 print "there is " + str(len(dict)) + " samples"
-print "there is " + str(count) + " files"
-towrite = []
+print "there is " + str(countFiles) + " files"
 file = open('newtests.csv', 'w')
 testsCreated = 0
 for index in dict:
-	if len(dict[index]) == count:
+	if len(dict[index]) == countFiles:
 		file.write(str(index) + "," + dict[index][0] + "\n")
-		testsCreated = testsCreated +1
+		testsCreated = testsCreated + 1
 file.close()
 print str(testsCreated) + " tests created"

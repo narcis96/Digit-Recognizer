@@ -10,12 +10,10 @@ function [newLabels, newTargets ] = AddTests(testDataFile, newTestsFile, targetC
     
     for i = 1:n
         index = newtests(i,1);
-        label = newtests(i,2); 
-        newlabel = zeros(targetCount,1);
-        newlabel(label) = 1;
+        target = newtests(i,2); 
         
-        newLabels(i) = tests(:,index);
-        newTargets(i) = newlabel; 
+        newLabels(:,i) = tests(:,index);
+        newTargets(target,i) = 1; 
     end
 end
 

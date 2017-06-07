@@ -11,6 +11,7 @@ disp(size(A));
 trainFile       = 'train.csv';
 testFile        = 'test.csv';
 newTestsFile    = 'newtests.csv';
+outputFile      = 'submission.csv';
 
 %read
 originalLabels = csvread(trainFile, 1, 1);
@@ -80,5 +81,5 @@ final = zeros(nrTests,2);
 final(:,2) = answers;
 final(:,1) = 1:size(final,1);
 
-csvwrite('submission.csv',final);
+csvwrite(outputFile,final);
 csvwrite('.\tests\submission.csv',final);
