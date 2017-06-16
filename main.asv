@@ -68,7 +68,7 @@ for i = 1:nrTests
     if val > 0
         answers(i,1) = idx(1) - 1;
     else
-        curent = output1(:,i);
+        curent = output3(:,i);
         [val, idx] = max(curent);
         answers(i,1) = idx(1) - 1;
     end

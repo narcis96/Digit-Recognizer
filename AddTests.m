@@ -13,7 +13,7 @@ function [newLabels, newTargets ] = AddTests(testDataFile, newTestsFile, targetC
         target = newtests(i,2); 
         
         newLabels(:,i) = tests(:,index);
-        newTargets(target,i) = 1; 
+        newTargets(target + 1,i) = 1; 
     end
 end
 
