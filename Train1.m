@@ -1,8 +1,7 @@
-function [output, net] = Train1(trainVectors, trainLabels, tests)
-    S1 = 50;
-    [R,Q] = size(trainVectors);
-    [S2,Q] = size(trainLabels);
-    net = newff(minmax(trainVectors),[70 60 S2],{'logsig', 'tansig','tansig'},'trainscg'); 
+function [output, net] = Train1(trainVectors, trainLabels, hiddenLayers, tests)
+    lastLayer = size(trainLabels, 1);    
+    hiddenLayers = [hiddenLayers lastLayer];
+    net = newff(minmax(trainVectors),hiddenLayers ,{'logsig', 'logsig', 'tansig','logsig'},'traingdx'); 
     net.IW{1,1} = rand(size(net.IW{1,1}))*0.1;net.b{1} = rand(size(net.b{1}))*0.1;
     net.LW{2,1} = rand(size(net.LW{2,1}))*0.1;net.b{2} = rand(size(net.b{2}))*0.1;
     net.divideFcn = 'dividerand';

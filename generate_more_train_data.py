@@ -1,3 +1,4 @@
+# coding=utf-8
 import sys
 import os
 import glob
@@ -18,8 +19,8 @@ dict = dict()
 
 for file in files:
 	if file.endswith(".csv"):
-		print path + '\\' + file
-		with open(path + '\\' + file) as csvfile:
+		print path + "/"+ file
+		with open(path + "/"+ file) as csvfile:
 			countFiles = countFiles + 1
 			spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
 			for row in spamreader:

@@ -45,8 +45,8 @@ output1 = output1 > value;
 nrTests = size(tests,2);
 answers = vec2ind(output1) - 1;
 
-%gene_weights = @(x) round(rand(size(x)));
-%ClassificationKNN.fit(x, y, 'DistanceWeight', gene_weights);
+gene_weights = @(x) round(rand(size(trainVectors)));
+ClassificationKNN.fit(trainVectors, y, 'DistanceWeight', gene_weights);
 
 
 %write

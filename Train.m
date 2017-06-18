@@ -1,6 +1,5 @@
-function [output, net] = Train(trainVectors, trainLabels, tests)
-    hiddenLayerSize = 50;
-    net = patternnet([hiddenLayerSize hiddenLayerSize hiddenLayerSize hiddenLayerSize hiddenLayerSize]);
+function [net, perf] = Train(trainVectors, trainLabels, hiddenLayers)
+    net = patternnet(hiddenLayers);
 
     % Set up Division of Data for Training, Validation, Testing
     net.divideFcn = 'dividerand';
@@ -8,10 +7,11 @@ function [output, net] = Train(trainVectors, trainLabels, tests)
     net.divideParam.valRatio = 15/100;
     net.divideParam.testRatio = 15/100;
 
-
     % Train the Network
-    [net,tr] = train(net,trainVectors,trainLabels);
-
-    output = sim(net,tests);
+    net = train(net,trainVectors,trainLabels);
+    
+    result = net(trainVectors);
+    perf = perform(net,trainLabels,result);
+    
 end
 
