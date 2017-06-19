@@ -1,15 +1,16 @@
-function [net, perf] = ChoseBest(trainVectors, trainLabels, arhitectures,nrTests)
-    net = [];
+function [arhitecture, perf] = ChoseBest(trainVectors, trainLabels, arhitectures, minP, maxP, minLayers, maxLayers, partitions)
+    arhitecture = [];
     perf = 1;
     for i = 1:arhitectures
-         hiddenLayers = sort(50 + randi(150, 1, 2 + randi(3)),'descend');
-         disp(hiddenLayers);         
-         [currentNet, currentPerformance] = TestPerformance(trainVectors, trainLabels, hiddenLayers ,nrTests);
+         hiddenLayers = sort(minP + randi(maxP, 1, minLayers + randi(maxLayers-minLayers)),'descend');
+         disp(hiddenLayers);        
+         
+         currentPerformance = TestPerformance(trainVectors, trainLabels, hiddenLayers ,partitions);
          disp(currentPerformance);
          
          if currentPerformance < perf
             perf = currentPerformance;
-            net = currentNet;
+            arhitecture = hiddenLayers;
          end
     end
 

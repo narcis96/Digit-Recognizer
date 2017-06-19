@@ -1,10 +1,18 @@
-function [newLabels ,newTargets] = DistrurbRandomSamples(labels, targets, count, sigma )
+function [newLabels ,newTargets] = DistrurbRandomSamples(labels, targets, percentage, sigma )
     
-    newLabels = zeros(size(labels,1),count);
-    newTargets = zeros(size(targets,1),count);
+    labelsSize = size(labels);
+    total = labelsSize(end);
+    count = floor(total*percentage);
+    labelsSize(end) = count;
+    
+    targetsSize = size(targets);
+    targetsSize(end) = count;
+    
+    newLabels = zeros(labelsSize);
+    newTargets = zeros(targetsSize);
     
     for i = 1:count
-        index             = randi(size(labels,2));
+        index             = randi(total);
         label             = min(max(labels(:,index) + randn(size(labels(:,index)))*sigma,0),255);
         newLabels(:,i)    = label;
         newTargets(:,i)   = targets(:,index);

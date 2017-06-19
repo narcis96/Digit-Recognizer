@@ -1,25 +1,35 @@
-function [ net, perf] = TestPerformance(trainVectors, trainLabels, hiddenLayers, nrTest)
-    net = [];
+function [perf] = TestPerformance(trainVectors, trainLabels, hiddenLayers, partitions)
     perf = 0;
     best = 1;
-    count = 10000;
-    sigma = 0.3;
+
+    sz = size(trainVectors);
+    total = sz(end);
+    
+    group = cvpartition(total,'kfold',partitions);
+    for i = 1:partitions
+        testIndx = find(test(group,i))';
+        trainIndx = find(~test(group,i))';
         
-    for i = 1:nrTest
-        [currentNet, ~] = Train(trainVectors, trainLabels, hiddenLayers);        
+        currentTrainVectors = trainVectors(:,trainIndx);
+        currentTestVectors = trainVectors(:,testIndx);
         
-        [testVectors, testLabels] = DistrurbRandomSamples(trainVectors, trainLabels, count, sigma);
-        result = sim(currentNet,testVectors);
-        currentPerformance = mean(abs(testLabels-result));
+        currentTrainLabels = trainLabels(:,trainIndx); 
+        currentTestLabels = trainLabels(:,testIndx);
+        
+        disp(size(currentTrainVectors));
+        disp(size(currentTestVectors));
+        
+        currentNet = Train(currentTrainVectors, currentTrainLabels, hiddenLayers);  
+         
+        result = sim(currentNet,currentTestVectors);
+        currentPerformance = mean(mean(abs(currentTestLabels-result)));
         if currentPerformance < best
             best = currentPerformance;
-            net = currentNet;
         end
         perf = perf + currentPerformance;
-        
-        
-        
+         
     end
-    perf = perf/nrTest;
+    
+    perf = perf/partitions;
 end
 

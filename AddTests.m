@@ -1,4 +1,4 @@
-function [newLabels, newTargets ] = AddTests(testDataFile, newTestsFile, targetCount)
+function [newLabels, newTargets ] = AddTests(testDataFile, newTestsFile, targetCount, percentage)
     tests = csvread(testDataFile, 1, 0);
     tests = tests';
     
@@ -7,6 +7,9 @@ function [newLabels, newTargets ] = AddTests(testDataFile, newTestsFile, targetC
     
     newLabels = zeros(size(tests,1),n);
     newTargets = zeros(targetCount,n);
+
+    
+    n = floor(n * percentage);
     
     for i = 1:n
         index = newtests(i,1);
