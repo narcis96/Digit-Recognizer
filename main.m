@@ -27,7 +27,7 @@ trainLabels = [trainLabels newTrainLabels];
 disp(size(trainVectors));
 disp(size(trainLabels));
 
-percentage = 15/100;
+percentage = 35/100;
 sigma = 0.3;
 minValue = 0;
 maxValue = 255;
@@ -54,14 +54,16 @@ maxLayers = 5;
 [arhitecture,performance] = ChoseBest(trainVectors, trainLabels, arhitectures, minPerceptrons, maxPerceptrons, minLayers, maxLayers, partitions);
 net = Train(trainVectors, trainLabels, arhitecture);
 
+K = 10;
+output2 = KNearestNeighbor(trainVectors',tests', K);
+
 value = 0.5;
 output1 = sim(net,tests);
 output1 = output1 > value;
 
-
-value = 0.5;
-output2 = sim(net,tests);
-output2 = output2 > value;
+%value = 0.5;
+%output2 = sim(net,tests);
+%output2 = output2 > value;
 
 %x = [1;2;3];
 %y = [1 2 3]; 
@@ -73,6 +75,7 @@ output2 = output2 > value;
 %write
 nrTests = size(tests,2);
 answers = vec2ind(output1) - 1;
+
 
 final = zeros(nrTests,2);
 final(:,1) = 1:size(final,1);
