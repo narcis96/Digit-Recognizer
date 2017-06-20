@@ -1,4 +1,4 @@
-function [perf] = TestPerformance(trainVectors, trainLabels, hiddenLayers, partitions)
+function [perf] = KFoldCrossValidation(trainVectors, trainLabels, hiddenLayers, partitions)
     perf = 0;
     best = 1;
 

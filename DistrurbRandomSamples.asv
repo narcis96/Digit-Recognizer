@@ -9,7 +9,7 @@ function [newLabels ,newTargets] = DistrurbRandomSamples(labels, targets, percen
     
     newLabels = labels(:,perm(1:count));
     newLabels = newLabels + randn(size(newLabels))*sigma;
-    newLabels(newLabels < minValue) = minValue;
+    newLabels(newLabels < minValue  ) = minValue;
     newLabels(newLabels > maxValue) = maxValue;
     newTargets = targets(:,perm(1:count));
 end

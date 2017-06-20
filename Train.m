@@ -2,7 +2,7 @@ function [net, perf] = Train(trainVectors, trainLabels, hiddenLayers)
     net = patternnet(hiddenLayers);
 
     % Set up Division of Data for Training, Validation, Testing
-    net.divideFcn = 'dividerand';
+    net.divideFcn = 'divideblock';
     net.divideParam.trainRatio = 70/100;
     net.divideParam.valRatio = 15/100;
     net.divideParam.testRatio = 15/100;

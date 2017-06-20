@@ -1,15 +1,18 @@
 function [arhitecture, perf] = ChoseBest(trainVectors, trainLabels, arhitectures, minP, maxP, minLayers, maxLayers, partitions)
+    assert(minp < maxP);
+    assert(minLayers < maxLayers);
+    
     arhitecture = [];
     perf = 1;
     for i = 1:arhitectures
-         hiddenLayers = sort(minP + randi(maxP, 1, minLayers + randi(maxLayers-minLayers)),'descend');
+         hiddenLayers = sort(minP + randi((maxP-minP), 1, minLayers + randi(maxLayers-minLayers)),'descend');
          disp(hiddenLayers);        
          
-         currentPerformance = TestPerformance(trainVectors, trainLabels, hiddenLayers ,partitions);
-         disp(currentPerformance);
+         performance = KFoldCrossValidation(trainVectors, trainLabels, hiddenLayers ,partitions);
+         disp(performance);
          
-         if currentPerformance < perf
-            perf = currentPerformance;
+         if performance < perf
+            perf = performance;
             arhitecture = hiddenLayers;
          end
     end
