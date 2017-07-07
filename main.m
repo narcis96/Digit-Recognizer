@@ -27,7 +27,7 @@ trainLabels = [trainLabels newTrainLabels];
 disp(size(trainVectors));
 disp(size(trainLabels));
 
-percentage = 35/100;
+percentage = 25/100;
 sigma = 0.3;
 minValue = 0;
 maxValue = 255;
@@ -54,32 +54,20 @@ maxLayers = 5;
 [arhitecture,performance] = ChoseBest(trainVectors, trainLabels, arhitectures, minPerceptrons, maxPerceptrons, minLayers, maxLayers, partitions);
 net = Train(trainVectors, trainLabels, arhitecture);
 
-K = 10;
-output2 = KNearestNeighbor(trainVectors',tests', K);
-
-value = 0.5;
-output1 = sim(net,tests);
-output1 = output1 > value;
-
+%K = 10;
+%output2 = KNearestNeighbor(trainVectors',tests', K);
 %value = 0.5;
 %output2 = sim(net,tests);
 %output2 = output2 > value;
 
-%x = [1;2;3];
-%y = [1 2 3]; 
-%gene_weights = @(x) round(rand(size(x)));
-%gene_weights = [1 2 3];
-%knn = ClassificationKNN.fit(x, y, 'DistanceWeight', gene_weights);
-%Mdl = fitcknn(x,y,'NumNeighbors',5,'Standardize',2);
-
 %write
 nrTests = size(tests,2);
-answers = vec2ind(output1) - 1;
+[~, answers] = max(sim(net,tests));
 
 
 final = zeros(nrTests,2);
-final(:,1) = 1:size(final,1);
+final(:,1) = 1:nrTests;
 final(:,2) = answers;
 
-csvwrite(outputFile,final);
-csvwrite(strcat('./tests/',outputFile),final);
+writetable(table([1:nrTests]', answers'), outputFile);
+writetable(table([1:nrTests]', answers'), strcat('./tests/',outputFile));

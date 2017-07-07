@@ -1,7 +1,6 @@
 function [perf] = KFoldCrossValidation(trainVectors, trainLabels, hiddenLayers, partitions)
     perf = 0;
-    best = 1;
-
+    
     sz = size(trainVectors);
     total = sz(end);
     
@@ -15,6 +14,7 @@ function [perf] = KFoldCrossValidation(trainVectors, trainLabels, hiddenLayers, 
         
         currentTrainLabels = trainLabels(:,trainIndx); 
         currentTestLabels = trainLabels(:,testIndx);
+        currentTestLabels = vec2ind(currentTestLabels);
         
         disp(size(currentTrainVectors));
         disp(size(currentTestVectors));
@@ -22,10 +22,8 @@ function [perf] = KFoldCrossValidation(trainVectors, trainLabels, hiddenLayers, 
         currentNet = Train(currentTrainVectors, currentTrainLabels, hiddenLayers);  
          
         result = sim(currentNet,currentTestVectors);
-        currentPerformance = mean(mean(abs(currentTestLabels-result)));
-        if currentPerformance < best
-            best = currentPerformance;
-        end
+        [~,result] = max(result);
+        currentPerformance = sum(result == currentTestLabels) /length(currentTestLabels);
         perf = perf + currentPerformance;
          
     end
